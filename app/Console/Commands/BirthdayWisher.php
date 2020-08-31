@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
 use App\User;
+use DateTime;
 class BirthdayWisher extends Command
 {
     /**
@@ -37,9 +38,16 @@ class BirthdayWisher extends Command
      */
     public function handle()
     {
+        $tomorrow = new DateTime('tomorrow');
+        $birthdate = $tomorrow->format('Y-m-d');
         $all = User::all();
         foreach($all as $user){
-            echo $user->id;
+            if($user->dob === $birthdate){
+                $details = [
+                    'name' => $user->fname . ' ' . $user->lname,
+                ];
+                \Mail::to($user->email)->send(new \App\Mail\SendMail($details));
+            }
         }
     }
 }

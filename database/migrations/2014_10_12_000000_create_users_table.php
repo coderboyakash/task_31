@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('fname');
             $table->string('lname');
             $table->tinyInteger('status')->nullable();
-            $table->timestamp('dob');
+            $table->date('dob');
             $table->string('email')->unique();
             $table->timestamp('last_login_at')->nullable();
             $table->timestamp('current_login_at')->nullable();
